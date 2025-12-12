@@ -77,10 +77,10 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
   });
 
   return (
-    <div className="space-y-4">
-      {/* Inbox for Provisional Questions */}
+    <div className="space-y-4 flex flex-col h-full">
+      {/* Inbox for Provisional Questions - Expanded height */}
       {provisionalQuestions.length > 0 && onSelectProvisional && (
-          <div className="bg-indigo-50 rounded-xl shadow-sm border border-indigo-200 p-4 mb-4 animate-fade-in">
+          <div className="bg-indigo-50 rounded-xl shadow-sm border border-indigo-200 p-4 mb-2 animate-fade-in flex flex-col flex-shrink-0">
               <div className="flex justify-between items-center mb-3">
                   <h3 className="text-sm font-bold text-indigo-800 flex items-center gap-2">
                       <ICONS.Inbox size={16} /> Bandeja de Entrada ({filteredProvisionalQuestions.length})
@@ -119,7 +119,8 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
                       <p className="font-bold mt-1">{selectedTopicFilter}</p>
                   </div>
               ) : (
-                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-indigo-200 scrollbar-track-transparent">
+                  // Increased max-height for better use of large screens
+                  <div className="space-y-2 max-h-[350px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-indigo-200 scrollbar-track-transparent">
                       {filteredProvisionalQuestions.map((prov) => (
                           <div key={prov.id} className="bg-white p-3 rounded-lg border border-indigo-100 flex justify-between items-start group hover:shadow-md transition-shadow cursor-pointer hover:border-indigo-300" onClick={() => onSelectProvisional(prov)}>
                               <div className="flex-1">
@@ -160,7 +161,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
           </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex-1 flex flex-col">
         <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
             <ICONS.FileText className="text-orange-500" />
@@ -179,7 +180,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
             </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 flex-1 flex flex-col">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="md:col-span-1">
                     <label className="block text-sm font-medium text-slate-700 mb-1">ID Pregunta</label>
@@ -217,14 +218,14 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
                 </div>
             </div>
 
-            <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Enunciado del Test</label>
-            <textarea
-                value={question.enunciado}
-                onChange={(e) => setQuestion({ ...question, enunciado: e.target.value })}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none h-24 resize-none"
-                placeholder="Escribe la pregunta sobre Ubuntu/Bash..."
-            />
+            <div className="flex-1 flex flex-col">
+                <label className="block text-sm font-medium text-slate-700 mb-1">Enunciado del Test</label>
+                <textarea
+                    value={question.enunciado}
+                    onChange={(e) => setQuestion({ ...question, enunciado: e.target.value })}
+                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none flex-1 min-h-[120px]"
+                    placeholder="Escribe la pregunta sobre Ubuntu/Bash..."
+                />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -245,7 +246,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
             <button
             onClick={() => onSubmit(question)}
             disabled={isLoading || !question.enunciado}
-            className={`w-full mt-6 py-3 rounded-lg font-bold text-white shadow-lg transition-all flex justify-center items-center gap-2 ${
+            className={`w-full mt-4 py-3 rounded-lg font-bold text-white shadow-lg transition-all flex justify-center items-center gap-2 ${
                 isLoading || !question.enunciado
                 ? 'bg-slate-400 cursor-not-allowed'
                 : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:-translate-y-1'

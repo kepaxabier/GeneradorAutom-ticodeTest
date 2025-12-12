@@ -413,16 +413,17 @@ function App() {
         const isCurrentQuestionSaved = validatedTests.some(st => st.question.id === activeQuestion?.id && st.result.questionId === currentResult?.questionId);
         
         return (
-          <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-             <div className="flex items-center justify-between">
+          <div className="h-full flex flex-col gap-6 animate-fade-in w-full max-w-[1920px] mx-auto">
+             <div className="flex items-center justify-between shrink-0">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-800">Resolución de Tests (RAG)</h2>
                     <p className="text-slate-500">Idioma activo: <span className="font-bold uppercase text-orange-600">{currentLanguage}</span></p>
                 </div>
              </div>
              
-             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div className="lg:col-span-5">
+             <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start h-full">
+                {/* Left Column (Input/Inbox) - Takes 5 cols on large screens, reduced to 4 on extra large if needed */}
+                <div className="xl:col-span-5 flex flex-col gap-6">
                     <QuestionForm 
                         onSubmit={handleSolve} 
                         isLoading={isLoading} 
@@ -437,7 +438,9 @@ function App() {
                         onOpenBulkEditor={() => setCurrentView('bulk-editor')}
                     />
                 </div>
-                <div className="lg:col-span-7">
+                
+                {/* Right Column (Results) - Takes remaining space */}
+                <div className="xl:col-span-7 h-full">
                     {activeQuestion && currentResult ? (
                         <ResultsDisplay 
                             question={activeQuestion} 
@@ -448,16 +451,18 @@ function App() {
                             onGenerateVariants={handleGenerateVariants}
                         />
                     ) : (
-                        <div className="h-full bg-slate-50 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center text-slate-400 p-12 min-h-[400px]">
+                        <div className="h-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-400 p-12 min-h-[400px]">
                             {isLoading ? (
                                 <div className="text-center">
                                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-                                    <p>Recuperando contexto ({currentLanguage.toUpperCase()})...</p>
+                                    <p className="text-lg">Recuperando contexto y razonando...</p>
+                                    <p className="text-sm mt-2 text-slate-500">Idioma: {currentLanguage.toUpperCase()}</p>
                                 </div>
                             ) : (
                                 <>
-                                    <ICONS.Search className="mb-4 opacity-50" size={48} />
-                                    <p>Los resultados aparecerán aquí</p>
+                                    <ICONS.Search className="mb-4 opacity-30" size={64} />
+                                    <p className="text-lg font-medium">Esperando pregunta...</p>
+                                    <p className="text-sm mt-2 max-w-xs text-center">Selecciona una pregunta de la bandeja de entrada o escribe una nueva para ver el resultado aquí.</p>
                                 </>
                             )}
                         </div>
@@ -535,7 +540,7 @@ function App() {
         currentLanguage={currentLanguage}
         setLanguage={setCurrentLanguage}
       />
-      <main className="flex-1 ml-64 p-8 overflow-y-auto h-screen">
+      <main className="flex-1 ml-64 p-6 overflow-y-auto h-screen">
         {renderContent()}
       </main>
     </div>

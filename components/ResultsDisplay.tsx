@@ -44,10 +44,10 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ question, result, onSav
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in h-full flex flex-col">
       {/* 1. Context Section */}
-      <div className="bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-r-xl shadow-sm">
-        <div className="flex justify-between items-start mb-3">
+      <div className="bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-r-xl shadow-sm flex flex-col">
+        <div className="flex justify-between items-start mb-3 shrink-0">
             <h3 className="text-indigo-900 font-bold flex items-center gap-2">
             <ICONS.BookOpen className="text-indigo-600" />
             Contexto Recuperado
@@ -57,7 +57,8 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ question, result, onSav
             </span>
         </div>
         
-        <div className="bg-white p-4 rounded border border-indigo-100 text-sm text-slate-700 font-mono leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">
+        {/* Increased max-height significantly for larger screens */}
+        <div className="bg-white p-4 rounded border border-indigo-100 text-sm text-slate-700 font-mono leading-relaxed whitespace-pre-wrap max-h-[500px] overflow-y-auto">
           {result.retrievedContext.map((doc, i) => (
              <div key={i}>
                 <div className="text-xs text-indigo-400 mb-1 border-b border-indigo-50 pb-1 flex justify-between">
@@ -69,14 +70,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ question, result, onSav
              </div>
           ))}
         </div>
-        <p className="text-xs text-indigo-400 mt-2 italic">
+        <p className="text-xs text-indigo-400 mt-2 italic shrink-0">
           * El agente utiliza este contexto específico del tema para razonar la respuesta.
         </p>
       </div>
 
       {/* 2. Answer Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex-1 flex flex-col">
+        <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-3">
                 <h3 className="font-bold text-slate-700">Resolución del Agente</h3>
                 {question.dificultad && (
@@ -92,7 +93,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ question, result, onSav
             <span className="text-xs font-mono bg-slate-200 px-2 py-1 rounded text-slate-600">ID: {result.questionId}</span>
         </div>
         
-        <div className="p-6">
+        <div className="p-6 flex-1 flex flex-col">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {question.opciones.map((opt, idx) => {
                     const isSelected = (idx + 1) === result.predictedIndex;
@@ -178,7 +179,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ question, result, onSav
                 </div>
             )}
 
-            <div className="flex justify-between border-t border-slate-100 pt-4 gap-3 flex-wrap">
+            <div className="flex justify-between border-t border-slate-100 pt-4 gap-3 flex-wrap mt-auto">
                 <div className="flex gap-2">
                    {onGenerateVariants && (
                        <button
