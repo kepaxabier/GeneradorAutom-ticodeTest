@@ -1,0 +1,5 @@
+{
+  "name": "Agente ISO Ubuntu",
+  "description": "Asistente RAG para resolución de tests de Sistemas Operativos (Ubuntu 24.04 Bash).",
+  "requestFramePermissions": []
+}
